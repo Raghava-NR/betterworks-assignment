@@ -1,0 +1,4 @@
+*.pyc
+.idea/
+betterworks/.idea/
+betterworks/bettworks/config.ini
