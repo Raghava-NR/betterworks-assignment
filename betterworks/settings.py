@@ -11,16 +11,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from configparser import RawConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+# Read config file for setting up the project
+CONFIG_FILE = os.path.join(BASE_DIR, "betterworks/config.ini")
+config = RawConfigParser()
+config.read(CONFIG_FILE)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3@=g%1dxcdbp*^#tlmt!jtj_ef(cli@nw7!*8c8ghi9+cnckb8'
+# SECRET KEY!!
+SECRET_KEY = config.get('main', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,10 +81,10 @@ WSGI_APPLICATION = 'betterworks.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'betterworks_db',
-        'USER': 'betterworks_u',
-        'PASSWORD': 'betterworks_p',
-        'HOST': '127.0.0.1',
+        'NAME': config.get('database_default', 'name'),
+        'USER': config.get('database_default', 'user'),
+        'PASSWORD': config.get('database_default', 'password'),
+        'HOST': config.get('database_default', 'host'),
         'PORT': '5432',
     }
 }
